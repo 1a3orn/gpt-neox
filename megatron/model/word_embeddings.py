@@ -58,7 +58,7 @@ class Embedding(torch.nn.Module):
         self.word_embeddings = mpu.VocabParallelEmbedding(
             neox_args=neox_args,
             num_embeddings=vocab_size,
-            embedding_dim=self.hidden_size / 2,
+            embedding_dim=int(self.hidden_size / 2),
             init_method=self.init_method,
         )
         self._word_embeddings_key = "word_embeddings"
