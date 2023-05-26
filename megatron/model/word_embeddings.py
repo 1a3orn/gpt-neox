@@ -55,6 +55,10 @@ class Embedding(torch.nn.Module):
         self.mup_rp_embedding_mult = neox_args.mup_rp_embedding_mult
 
         # Word embeddings (parallel).
+        print("---------------------------------")
+        print("Initializing word embeddings -- HALF AS BIG")
+        print("---------------------------------")
+
         self.word_embeddings = mpu.VocabParallelEmbedding(
             neox_args=neox_args,
             num_embeddings=vocab_size,
