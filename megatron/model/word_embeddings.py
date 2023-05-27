@@ -56,13 +56,13 @@ class Embedding(torch.nn.Module):
 
         # Word embeddings (parallel).
         print("---------------------------------")
-        print("Initializing word embeddings -- HALF AS BIG")
+        print("Initializing word embeddings -- THIRD AS BIG")
         print("---------------------------------")
 
         self.word_embeddings = mpu.VocabParallelEmbedding(
             neox_args=neox_args,
             num_embeddings=vocab_size,
-            embedding_dim=int(self.hidden_size / 2),
+            embedding_dim=int(self.hidden_size / 3),
             init_method=self.init_method,
         )
         self._word_embeddings_key = "word_embeddings"
@@ -140,7 +140,11 @@ class Embedding(torch.nn.Module):
         words_embeddings = self.word_embeddings(input_ids)
         words_embeddings = torch.cat([
                 words_embeddings,
-                torch.zeros_like(words_embeddings)
+                torch.zeros(
+                    (words_embeddings.size(0), words_embeddings.size(1), self.hidden_size - words_embeddings.size(2)),
+                    dtype=words_embeddings.dtype,
+                    layout=words_embeddings.layout,
+                    device=words_embeddings.device)
         ], dim=-1)
         if self.use_pos_emb and self.embedding_type in ["learned", "sinusoidal"]:
             if self.opt_pos_emb_offset:
