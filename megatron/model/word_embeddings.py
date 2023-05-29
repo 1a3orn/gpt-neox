@@ -58,6 +58,10 @@ class Embedding(torch.nn.Module):
         print("---------------------------------")
         print("Initializing word embeddings -- SIXTH AS BIG")
         print("---------------------------------")
+        print("Vocab size: ", vocab_size)
+        print("Hidden size: ", self.hidden_size)
+        print("Embedding size: ", int(self.hidden_size / 6))
+        print("---------------------------------")
 
         self.word_embeddings = mpu.VocabParallelEmbedding(
             neox_args=neox_args,
