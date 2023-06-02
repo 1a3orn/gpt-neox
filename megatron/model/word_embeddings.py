@@ -57,7 +57,7 @@ class Embedding(torch.nn.Module):
         # Word embeddings (parallel).
         DIVIDE = 12
         print("---------------------------------")
-        print("Initializing word embeddings -- " + DIVIDE)
+        print("Initializing word embeddings -- " + str(DIVIDE))
         print("---------------------------------")
         print("Vocab size: ", vocab_size)
         print("Hidden size: ", self.hidden_size)
