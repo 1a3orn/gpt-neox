@@ -55,18 +55,19 @@ class Embedding(torch.nn.Module):
         self.mup_rp_embedding_mult = neox_args.mup_rp_embedding_mult
 
         # Word embeddings (parallel).
+        DIVIDE = 12
         print("---------------------------------")
-        print("Initializing word embeddings -- 24th AS BIG")
+        print("Initializing word embeddings -- " + DIVIDE)
         print("---------------------------------")
         print("Vocab size: ", vocab_size)
         print("Hidden size: ", self.hidden_size)
-        print("Embedding size: ", int(self.hidden_size / 24))
+        print("Embedding size: ", int(self.hidden_size / DIVIDE))
         print("---------------------------------")
 
         self.word_embeddings = mpu.VocabParallelEmbedding(
             neox_args=neox_args,
             num_embeddings=vocab_size,
-            embedding_dim=int(self.hidden_size / 6),
+            embedding_dim=int(self.hidden_size / DIVIDE),
             init_method=self.init_method,
         )
         self._word_embeddings_key = "word_embeddings"
