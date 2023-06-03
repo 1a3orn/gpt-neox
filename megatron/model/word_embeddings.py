@@ -55,7 +55,7 @@ class Embedding(torch.nn.Module):
         self.mup_rp_embedding_mult = neox_args.mup_rp_embedding_mult
 
         # Word embeddings (parallel).
-        DIVIDE = 12
+        DIVIDE = 24
         print("---------------------------------")
         print("Initializing word embeddings -- " + str(DIVIDE))
         print("---------------------------------")
