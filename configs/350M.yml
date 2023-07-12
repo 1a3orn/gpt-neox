@@ -47,9 +47,9 @@
       "contiguous_gradients": True,
     },
   # batch / data settings
-  "train_batch_size": 64,
+  "train_batch_size": 96,
   "train_micro_batch_size_per_gpu": 16,
-  "gradient_accumulation_steps": 4,
+  "gradient_accumulation_steps": 6,
   "data_impl": "mmap",
 
   # activation checkpointing
@@ -90,6 +90,7 @@
   "merge-file": "./data/gpt2-merges.txt",
   "use-wandb": True,
   "wandb-project": "variable-width",
+  "wandb-group": "try-1",
 
   # logging
   "log_interval": 100,
