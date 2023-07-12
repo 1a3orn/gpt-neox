@@ -78,20 +78,22 @@ class ParallelMLP(nn.Module):
     """
 
     def __init__(
-        self, neox_args, init_method, output_layer_init_method, parallel_output=False
+        self, layer_number, neox_args, init_method, output_layer_init_method, parallel_output=False
     ):
         super().__init__()
 
+        self.layer_number = layer_number
         self.activation_func = get_activation(neox_args)
         self.activation_type = neox_args.activation
         self.bias_gelu_fusion = neox_args.bias_gelu_fusion
 
         # auto scale so geglu has equal parameters
-        ff_mult = int(4 * 2 / 3) if self.activation_type == "geglu" else 4
+        if self.activation_type == "geglu":
+            raise NotImplementedError("geglu not implemented for parallel mlp")
+        ff_mult = neox_args.mlp_expansion[layer_number]
+        print("Expansion factor for layer {} is {}".format(layer_number, ff_mult))
         ff_dim = (
-            int(ff_mult * neox_args.hidden_size) * 2
-            if self.activation_type == "geglu"
-            else ff_mult * neox_args.hidden_size
+            ff_mult * neox_args.hidden_size
         )
         self.dense_h_to_4h = mpu.ColumnParallelLinear(
             neox_args=neox_args,
@@ -101,7 +103,7 @@ class ParallelMLP(nn.Module):
             init_method=init_method,
             skip_bias_add=True,
         )
-        ff_dim_in = ff_dim // 2 if self.activation_type == "geglu" else ff_dim
+        ff_dim_in = ff_dim
         # Project back to h.
         self.dense_4h_to_h = mpu.RowParallelLinear(
             neox_args=neox_args,
@@ -769,6 +771,7 @@ class ParallelTransformerLayer(nn.Module):
         # MLP
         if neox_args.mlp_type == "regular":
             self.mlp = ParallelMLP(
+                layer_number=layer_number,
                 neox_args=neox_args,
                 init_method=init_method,
                 output_layer_init_method=output_layer_init_method,

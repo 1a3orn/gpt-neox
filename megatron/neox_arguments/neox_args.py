@@ -167,6 +167,22 @@ class NeoXArgsModel(NeoXArgsTemplate):
     Disables weight tying between embedding weights and final Linear layer
     """
 
+    mlp_expansion: list = None
+
+    """
+    The normal expansion of an MLP per-layer is by a factor of 4.
+    This list allows you to specify a different expansion for each layer.
+    Given in expansion factor per layer, so [1, 2, 4] would be a 3
+    layer network with expansion factors [1, 2, 4]
+    """
+
+    att_expansion: list = None
+
+    """
+    The normal expansion of an attention layer per-layer is by a factor of 1.
+    This list allows you to specify a different expansion for each layer.
+    """
+
     attention_config: list = None
 
     """

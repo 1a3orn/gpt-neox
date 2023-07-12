@@ -1028,6 +1028,9 @@ class NeoXArgs(*BASE_CLASSES):
                 not self.partition_activations
             ), "GMLP Blocks are not compatible with partition activations"
 
+        if self.mlp_expansion is None:
+            self.update_value("mlp_expansion", [4] * self.num_layers)
+
         # Sparsity config
         if self.sparsity_config is None:
             # Can't have a default value as an empty dict so need to set it here
