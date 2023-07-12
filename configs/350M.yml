@@ -86,6 +86,7 @@
   "eval_iters": 100,
 
   "data-path": "./data/books1/BookCorpusDataset_text_document",
+  "vocab-file": "./data/gpt2-vocab.json",
   "use-wandb": True,
   "wandb-project": "variable-width",
 
