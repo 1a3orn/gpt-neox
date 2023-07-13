@@ -8,7 +8,7 @@
   # model settings
   "num_layers": 24,
   "mlp_expansion":
-    [8, 8, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 8, 8],
+    [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
   "hidden_size": 1024,
   "num_attention_heads": 16,
   "seq_length": 256,
